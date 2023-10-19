@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Receta</title>
+</head>
+<body>
+    <div>
+        <nav>
+            <h1>Editar Receta</h1>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Cerrar Sesión</a>
+        </nav>
+        {% with messages = get_flashed_messages(category_filter=['cita']) %}
+            {% if messages %}
+                <div>
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="/update/appointment" method="post">
+            <input type="hidden" name="user_id" value="{{user.id}}">
+            <input type="hidden" name="id" value="{{appointment.id}}">
+            <div>
+                <label for="name">Nombre de la Cita:</label>
+                <input type="text" name="name" id="name" value="{{appointment.name}}">
+            </div>
+            <div>
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                    <option disabled selected hidden>Selecciona el status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Missed">Missed</option>
+                    <option value="Done">Done</option>
+                </select>
+            </div>
+            <div>
+                <label for="date_made">Fecha Creación:</label>
+                <input type="date" name="date_made" id="date_made" value="{{appointment.date_made.strftime('%Y-%m-%d')}}">
+            </div>
+            <input type="submit" value="Actualizar Cita">
+        </form>
+    </div>
+</body>
+</html>
